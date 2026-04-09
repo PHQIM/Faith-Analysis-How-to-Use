@@ -1,1 +1,0 @@
-# Faith-Analysis-How-to-Use
