@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title class="t" data-ko="FaithType 구역장 사용 가이드" data-en="FaithType Cell Leader User Guide">FaithType 구역장 사용 가이드</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;700&display=swap');
+
+/* ── RESET & BASE ── */
+*{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:14px;}
+body{font-family:'Noto Sans KR',sans-serif;background:#F0EDE8;color:#1A1814;line-height:1.7;}
+body.lang-en{font-family:'Inter',sans-serif;}
+
+/* ── PRINT LAYOUT ── */
+@media print{
+  body{background:#fff;}
+  .no-print{display:none!important;}
+  .page{page-break-after:always;box-shadow:none!important;margin:0!important;border-radius:0!important;}
+  .page:last-child{page-break-after:auto;}
+  @page{margin:0;size:A4;}
+}
+
+/* ── SCREEN LAYOUT ── */
+.top-bar{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;justify-content:flex-end;gap:10px;
+  padding:12px 24px;
+  background:rgba(240,237,232,0.92);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid #E0DBD3;
+}
+.print-btn{
+  background:#2C3E6B;color:#fff;border:none;
+  padding:8px 18px;border-radius:4px;font-family:inherit;
+  font-size:12px;font-weight:500;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.15);
+  transition:background .2s;
+}
+.print-btn:hover{background:#1E2B55;}
+
+/* Language dropdown */
+.lang-wrap{position:relative;}
+.lang-btn{
+  display:flex;align-items:center;gap:6px;
+  background:#fff;color:#2C3E6B;
+  border:1.5px solid #2C3E6B;
+  padding:7px 14px;border-radius:4px;
+  font-family:inherit;font-size:12px;font-weight:600;
+  cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);
+  transition:all .2s;
+  white-space:nowrap;
+}
+.lang-btn:hover{background:#EEF1F8;}
+.lang-btn svg{transition:transform .2s;}
+.lang-btn.open svg{transform:rotate(180deg);}
+.lang-dropdown{
+  display:none;position:absolute;top:calc(100% + 6px);right:0;
+  background:#fff;border:1.5px solid #E0DBD3;border-radius:6px;
+  box-shadow:0 4px 16px rgba(0,0,0,.12);min-width:150px;overflow:hidden;
+  z-index:1001;
+}
+.lang-dropdown.show{display:block;}
+.lang-option{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 16px;font-size:12px;font-weight:500;
+  cursor:pointer;color:#1A1814;transition:background .15s;
+}
+.lang-option:hover{background:#F0EDE8;}
+.lang-option.active{background:#EEF1F8;color:#2C3E6B;font-weight:700;}
+.lang-flag{font-size:16px;line-height:1;}
+
+.page-wrap{max-width:800px;margin:0 auto;padding:72px 20px 20px;}
+.page{
+  background:#fff;width:210mm;min-height:297mm;margin:0 auto 24px;
+  box-shadow:0 2px 16px rgba(0,0,0,.12);border-radius:4px;
+  position:relative;overflow:hidden;
+  padding:0 0 18mm 0;
+}
+
+/* ── COLOR VARS ── */
+:root{
+  --navy:#2C3E6B;
+  --cream:#F5F0E8;
+  --sage:#5A7A6E;
+  --purple:#534AB7;
+  --gold:#C8A96E;
+  --red:#993C1D;
+  --muted:#7A7568;
+  --light:#EEE9DF;
+  --text:#1A1814;
+  --border:#E8E3DC;
+}
+
+/* ── PAGE HEADER BAR ── */
+.pg-header{
+  background:#2C3E6B;color:#fff;
+  padding:11mm 14mm 9mm;
+  position:relative;
+}
+.pg-header::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold);
+}
+.pg-header h2{font-family:'Noto Serif KR',serif;font-size:18px;font-weight:600;margin-bottom:2px;}
+body.lang-en .pg-header h2{font-family:'Playfair Display',serif;}
+.pg-header .sub{font-size:10px;color:#AAAACC;letter-spacing:.5px;}
+
+/* ── FOOTER ── */
+.pg-footer{
+  position:absolute;bottom:0;left:0;right:0;height:16mm;
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 14mm;font-size:9px;color:var(--muted);
+}
+
+/* ── CONTENT AREA ── */
+.content{padding:8mm 14mm 4mm;}
+
+/* ── TYPOGRAPHY ── */
+.section-title{
+  font-family:'Noto Serif KR',serif;font-size:15px;font-weight:700;
+  color:var(--navy);margin-bottom:5px;
+}
+body.lang-en .section-title{font-family:'Playfair Display',serif;}
+.body-text{font-size:11px;color:var(--text);line-height:1.8;}
+.muted{color:var(--muted);}
+
+/* ── COMPONENTS ── */
+.badge{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:22px;height:22px;border-radius:50%;
+  font-size:10px;font-weight:700;color:#fff;flex-shrink:0;margin-right:6px;
+}
+
+/* Info box */
+.info-box{border-radius:6px;padding:10px 14px;margin:10px 0;font-size:11px;line-height:1.75;}
+.info-box.gold{background:#FFF8F0;border:1.5px solid var(--gold);color:#7A5820;}
+.info-box.navy{background:#EEF1F8;border-left:4px solid var(--navy);color:var(--text);}
+.info-box.sage{background:#EBF3F0;border-left:4px solid var(--sage);color:#2D4A44;}
+.info-box.purple{background:#EEEDFE;border-left:4px solid var(--purple);color:#3C3489;}
+.info-box.light{background:var(--light);border-radius:6px;color:var(--text);}
+
+/* Cards grid */
+.card-grid{display:grid;gap:8px;margin:10px 0;}
+.card-grid.col2{grid-template-columns:1fr 1fr;}
+.card-grid.col3{grid-template-columns:1fr 1fr 1fr;}
+.card{border-radius:6px;padding:12px 14px;font-size:11px;}
+.card-title{font-weight:700;font-size:12px;margin-bottom:4px;}
+.card.navy{background:var(--navy);color:#fff;}
+.card.sage{background:var(--sage);color:#fff;}
+.card.purple{background:var(--purple);color:#fff;}
+.card.red{background:var(--red);color:#fff;}
+.card.gold{background:var(--gold);color:#fff;}
+.card.light{background:var(--light);color:var(--text);}
+
+/* Step timeline */
+.step-row{display:flex;gap:0;margin:6px 0;}
+.step-num{width:28px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;}
+.step-circle{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;}
+.step-line{flex:1;width:2px;background:var(--border);margin:3px auto 0;}
+.step-body{flex:1;padding:0 0 14px 10px;}
+.step-title{font-weight:700;font-size:12px;margin-bottom:3px;}
+.step-desc{font-size:10.5px;color:var(--muted);line-height:1.7;}
+.step-bullets{margin-top:5px;}
+.step-bullets li{font-size:10.5px;color:var(--muted);line-height:1.6;list-style:none;padding-left:12px;position:relative;}
+.step-bullets li::before{content:'·';position:absolute;left:2px;color:var(--gold);}
+
+/* Guide section table */
+.guide-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:8px 0;}
+.guide-cell{background:var(--light);border-radius:4px;padding:7px 10px;font-size:10px;}
+.guide-cell .sec{color:var(--navy);font-weight:700;font-size:9px;letter-spacing:.3px;display:block;margin-bottom:2px;}
+.guide-cell .stitle{color:var(--text);font-weight:500;font-size:11px;display:block;}
+.guide-cell .sdesc{color:var(--muted);font-size:9px;display:block;margin-top:1px;}
+.guide-cell:nth-child(even){background:#fff;border:1px solid var(--border);}
+
+/* Type cards */
+.type-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:8px 0;}
+.type-card{border-radius:6px;padding:10px 12px;display:flex;gap:8px;align-items:flex-start;font-size:10.5px;}
+.type-dot{width:4px;border-radius:2px;align-self:stretch;flex-shrink:0;}
+.type-name{font-weight:700;font-size:12px;margin-bottom:2px;}
+.type-sub{font-size:9.5px;color:var(--muted);margin-bottom:3px;}
+.type-tip{font-size:9.5px;line-height:1.55;}
+
+/* FAQ */
+.faq-item{margin-bottom:10px;}
+.faq-q{background:var(--light);border-radius:4px;padding:7px 12px;font-size:10.5px;font-weight:500;color:var(--navy);}
+.faq-a{padding:6px 12px 0;font-size:10.5px;color:var(--muted);line-height:1.7;display:flex;gap:6px;}
+.faq-a::before{content:'A.';color:var(--sage);font-weight:700;flex-shrink:0;}
+
+/* Mistake item */
+.mistake-item{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start;}
+.mistake-badge{background:var(--red);color:#fff;border-radius:4px;padding:3px 7px;font-size:9px;font-weight:700;white-space:nowrap;flex-shrink:0;margin-top:2px;}
+.mistake-title{font-weight:700;font-size:11px;color:var(--text);margin-bottom:3px;}
+.mistake-body{font-size:10.5px;color:var(--muted);line-height:1.65;}
+
+/* Timeline table */
+.timeline{margin:8px 0;}
+.tl-row{display:grid;grid-template-columns:22mm 1fr;gap:0;margin-bottom:6px;align-items:stretch;}
+.tl-week{border-radius:4px 0 0 4px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;text-align:center;padding:8px 4px;}
+.tl-body{border-radius:0 4px 4px 0;padding:8px 12px;font-size:10.5px;}
+.tl-title{font-weight:700;margin-bottom:3px;}
+.tl-desc{color:var(--muted);font-size:10px;line-height:1.6;}
+
+/* Divider */
+.divider{border:none;border-top:1px solid var(--border);margin:10px 0;}
+
+/* Highlight block */
+.highlight{background:var(--navy);color:#fff;border-radius:6px;padding:12px 16px;text-align:center;margin:12px 0;}
+.highlight p{font-family:'Noto Serif KR',serif;font-size:13px;line-height:1.8;color:#fff;}
+body.lang-en .highlight p{font-family:'Playfair Display',serif;}
+.highlight small{font-size:10px;color:#AAAACC;display:block;margin-top:4px;}
+
+/* Quick ref */
+.qref-row{display:flex;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);}
+.qref-row:last-child{border-bottom:none;}
+.qref-dot{width:4px;height:28px;border-radius:2px;flex-shrink:0;}
+.qref-name{font-weight:700;font-size:11px;width:100px;flex-shrink:0;}
+.qref-desc{font-size:10.5px;color:var(--muted);}
+
+/* ── LANGUAGE CONTENT ── */
+[data-ko], [data-en]{transition:opacity .15s;}
+</style>
+</head>
+<body>
+
+<!-- ── TOP BAR ── -->
+<div class="top-bar no-print">
+  <button class="print-btn" onclick="window.print()">
+    <span data-ko="PDF 저장 / 인쇄" data-en="Save PDF / Print">PDF 저장 / 인쇄</span>
+  </button>
+  <div class="lang-wrap">
+    <button class="lang-btn" id="langBtn" onclick="toggleDropdown()">
+      <span id="langLabel">🇰🇷 한국어</span>
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <path d="M2 4L6 8L10 4" stroke="#2C3E6B" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <div class="lang-dropdown" id="langDropdown">
+      <div class="lang-option active" id="opt-ko" onclick="setLang('ko')">
+        <span class="lang-flag">🇰🇷</span> 한국어
+      </div>
+      <div class="lang-option" id="opt-en" onclick="setLang('en')">
+        <span class="lang-flag">🇺🇸</span> English
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+<!-- ════════════════════════════════════════ -->
+<!-- PAGE 1 — COVER                          -->
+<!-- ════════════════════════════════════════ -->
+<div class="page" style="background:#2C3E6B;padding:0;">
+  <div style="position:absolute;top:0;left:0;right:0;height:4px;background:var(--gold);"></div>
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:297mm;gap:0;padding:0 30mm;">
+    <div style="width:96px;height:96px;border-radius:50%;background:#1E2B55;display:flex;align-items:center;justify-content:center;margin-bottom:24px;">
+      <div style="width:68px;height:68px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;">
+        <span style="font-family:'Noto Serif KR',serif;font-size:24px;font-weight:700;color:var(--navy);">FT</span>
+      </div>
+    </div>
+    <p style="font-family:'Noto Serif KR',serif;font-size:24px;font-weight:600;color:#fff;text-align:center;margin-bottom:8px;">
+      <span data-ko="신앙 유형 상담 시스템" data-en="Faith Type Counseling System">신앙 유형 상담 시스템</span>
+    </p>
+    <p style="font-family:'Noto Serif KR',serif;font-size:20px;font-weight:600;color:var(--gold);text-align:center;margin-bottom:16px;">
+      <span data-ko="구역장 사용 가이드" data-en="Cell Leader User Guide">구역장 사용 가이드</span>
+    </p>
+    <p style="font-size:12px;color:#AAAACC;text-align:center;margin-bottom:48px;">
+      <span data-ko="우리 구역원의 신앙 여정을 함께 걷기 위한 안내서" data-en="A guide for walking alongside your cell members on their faith journey">우리 구역원의 신앙 여정을 함께 걷기 위한 안내서</span>
+    </p>
+    <div style="background:#1E2B55;border-radius:8px;padding:16px 24px;width:100%;max-width:340px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <span style="font-size:10px;font-weight:700;color:var(--gold);width:36px;" data-ko="대상" data-en="For">대상</span>
+        <span style="font-size:11px;color:#fff;" data-ko="구역장 · 소그룹 인도자" data-en="Cell Leaders · Small Group Facilitators">구역장 · 소그룹 인도자</span>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:10px;">
+        <span style="font-size:10px;font-weight:700;color:var(--gold);width:36px;margin-top:2px;" data-ko="목적" data-en="Goal">목적</span>
+        <span style="font-size:11px;color:#fff;" data-ko="구역원의 신앙 유형을 이해하고,<br>맞춤 동행 방법을 익힌다" data-en="Understand your cell members' faith types<br>and learn to walk with each person in a tailored way">구역원의 신앙 유형을 이해하고,<br>맞춤 동행 방법을 익힌다</span>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;bottom:0;left:0;right:0;height:4px;background:var(--gold);"></div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PAGE 2 — 목차 / TABLE OF CONTENTS       -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="pg-header">
+    <h2 data-ko="목차" data-en="Table of Contents">목차</h2>
+    <span class="sub">FaithType Guide</span>
+  </div>
+  <div class="content">
+    <div style="margin-top:6mm;">
+      <table style="width:100%;border-collapse:collapse;">
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:10px 0;width:36px;"><span class="badge" style="background:#2C3E6B;">01</span></td>
+            <td style="padding:10px 0;font-weight:500;font-size:13px;" data-ko="이 도구가 무엇인가요?" data-en="What Is This Tool?">이 도구가 무엇인가요?</td>
+            <td style="padding:10px 0;text-align:right;font-size:11px;color:var(--muted);">03</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:10px 0;"><span class="badge" style="background:var(--sage);">02</span></td>
+            <td style="padding:10px 0;font-weight:500;font-size:13px;" data-ko="전체 흐름 한눈에 보기" data-en="The Overall Flow at a Glance">전체 흐름 한눈에 보기</td>
+            <td style="padding:10px 0;text-align:right;font-size:11px;color:var(--muted);">04</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:10px 0;"><span class="badge" style="background:var(--purple);">03</span></td>
+            <td style="padding:10px 0;font-weight:500;font-size:13px;" data-ko="단계별 사용법" data-en="Step-by-Step Instructions">단계별 사용법</td>
+            <td style="padding:10px 0;text-align:right;font-size:11px;color:var(--muted);">05</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:10px 0;"><span class="badge" style="background:var(--red);">04</span></td>
+            <td style="padding:10px 0;font-weight:500;font-size:13px;" data-ko="8가지 신앙 유형 요약" data-en="Summary of the 8 Faith Types">8가지 신앙 유형 요약</td>
+            <td style="padding:10px 0;text-align:right;font-size:11px;color:var(--muted);">08</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:10px 0;"><span class="badge" style="background:#854F0B;">05</span></td>
+            <td style="padding:10px 0;font-weight:500;font-size:13px;" data-ko="자주 하는 실수 &amp; 주의사항" data-en="Common Mistakes &amp; Cautions">자주 하는 실수 &amp; 주의사항</td>
+            <td style="padding:10px 0;text-align:right;font-size:11px;color:var(--muted);">09</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:10px 0;"><span class="badge" style="background:var(--sage);">06</span></td>
+            <td style="padding:10px 0;font-weight:500;font-size:13px;" data-ko="자주 묻는 질문 (FAQ)" data-en="Frequently Asked Questions (FAQ)">자주 묻는 질문 (FAQ)</td>
+            <td style="padding:10px 0;text-align:right;font-size:11px;color:var(--muted);">10</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 0;"><span class="badge" style="background:var(--gold);">07</span></td>
+            <td style="padding:10px 0;font-weight:500;font-size:13px;" data-ko="문의 및 지원" data-en="Support &amp; Contact">문의 및 지원</td>
+            <td style="padding:10px 0;text-align:right;font-size:11px;color:var(--muted);">11</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:10mm;">
+      <div class="info-box light" style="text-align:center;padding:16px;border-radius:8px;">
+        <p style="font-family:'Noto Serif KR',serif;font-size:12.5px;color:var(--navy);line-height:1.9;">
+          <span data-ko='"검사 결과가 사람을 판단하는 기준이 되어서는 안 됩니다.<br>대화의 시작점이자, 함께 걷는 지도로 사용해 주세요."'
+                data-en='"The assessment results must never become a standard for judging people.<br>Please use them as a starting point for conversation and a map for walking together."'>
+            "검사 결과가 사람을 판단하는 기준이 되어서는 안 됩니다.<br>대화의 시작점이자, 함께 걷는 지도로 사용해 주세요."
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="pg-footer">
+    <span data-ko="FaithType · 신앙 유형 상담 시스템 · 구역장 사용 가이드" data-en="FaithType · Faith Type Counseling System · Cell Leader User Guide">FaithType · 신앙 유형 상담 시스템 · 구역장 사용 가이드</span>
+    <span>2</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PAGE 3 — 섹션 01 / SECTION 01           -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="pg-header">
+    <h2 data-ko="01 &nbsp; 이 도구가 무엇인가요?" data-en="01 &nbsp; What Is This Tool?">01 &nbsp; 이 도구가 무엇인가요?</h2>
+    <span class="sub">What is FaithType?</span>
+  </div>
+  <div class="content">
+    <p class="body-text" style="margin-bottom:10px;">
+      <span data-ko="신앙 유형 상담 시스템(FaithType)은 74가지 질문을 통해 구역원의 신앙 여정을 이해하고, 구역장이 각 사람에게 맞는 방식으로 동행할 수 있도록 돕는 도구입니다."
+            data-en="The Faith Type Counseling System (FaithType) is a tool that uses 74 questions to help cell leaders understand each member's faith journey and walk alongside them in a way that fits each individual.">
+        신앙 유형 상담 시스템(FaithType)은 74가지 질문을 통해 구역원의 신앙 여정을 이해하고, 구역장이 각 사람에게 맞는 방식으로 동행할 수 있도록 돕는 도구입니다.
+      </span>
+    </p>
+    <div class="card-grid col3">
+      <div class="card navy">
+        <div class="card-title" data-ko="심리 검사 ✗" data-en="Psychological Test ✗">심리 검사 ✗</div>
+        <div style="font-size:10px;opacity:.85;line-height:1.6;" data-ko="신앙의 깊이나 신앙심을 측정하지 않습니다." data-en="It does not measure the depth or level of one's faith.">신앙의 깊이나 신앙심을 측정하지 않습니다.</div>
+      </div>
+      <div class="card sage">
+        <div class="card-title" data-ko="대화 도구 ✓" data-en="Conversation Tool ✓">대화 도구 ✓</div>
+        <div style="font-size:10px;opacity:.9;line-height:1.6;" data-ko="구역원과 더 깊은 대화를 나누기 위한 출발점입니다." data-en="It is a starting point for deeper conversation with your cell members.">구역원과 더 깊은 대화를 나누기 위한 출발점입니다.</div>
+      </div>
+      <div class="card purple">
+        <div class="card-title" data-ko="동행 지도 ✓" data-en="Companion Map ✓">동행 지도 ✓</div>
+        <div style="font-size:10px;opacity:.9;line-height:1.6;" data-ko="8가지 유형으로 각 사람에게 맞는 방향을 찾습니다." data-en="Uses 8 types to find the right direction for each person.">8가지 유형으로 각 사람에게 맞는 방향을 찾습니다.</div>
+      </div>
+    </div>
+    <hr class="divider">
+    <p class="section-title" style="margin-bottom:10px;" data-ko="이 시스템에 포함된 것들" data-en="What's Included in This System">이 시스템에 포함된 것들</p>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:var(--light);border-radius:6px;">
+        <span class="badge" style="background:var(--purple);margin-top:1px;">①</span>
+        <div>
+          <div style="font-weight:700;font-size:12px;margin-bottom:2px;" data-ko="신앙 유형 검사지" data-en="Faith Type Assessment">신앙 유형 검사지</div>
+          <div style="font-size:10.5px;color:var(--muted);" data-ko="구역원이 직접 응답하는 74문항 검사 · 약 15분 · 스마트폰·PC 모두 가능" data-en="74-question assessment completed by the cell member · approx. 15 minutes · available on smartphone and PC">구역원이 직접 응답하는 74문항 검사 · 약 15분 · 스마트폰·PC 모두 가능</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:var(--light);border-radius:6px;">
+        <span class="badge" style="background:var(--navy);margin-top:1px;">②</span>
+        <div>
+          <div style="font-weight:700;font-size:12px;margin-bottom:2px;" data-ko="상담 가이드" data-en="Counseling Guide">상담 가이드</div>
+          <div style="font-size:10.5px;color:var(--muted);" data-ko="8가지 유형별 구역장 전용 상담 참고 자료 · 8개 섹션으로 구성" data-en="Cell leader-exclusive counseling reference for all 8 types · organized in 8 sections">8가지 유형별 구역장 전용 상담 참고 자료 · 8개 섹션으로 구성</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:var(--light);border-radius:6px;">
+        <span class="badge" style="background:var(--sage);margin-top:1px;">③</span>
+        <div>
+          <div style="font-weight:700;font-size:12px;margin-bottom:2px;" data-ko="성장 플랜지" data-en="Growth Plan Sheet">성장 플랜지</div>
+          <div style="font-size:10.5px;color:var(--muted);" data-ko="1년 성장 로드맵 · PDF 저장 가능" data-en="1-year growth roadmap · can be saved as PDF">1년 성장 로드맵 · PDF 저장 가능</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:var(--light);border-radius:6px;">
+        <span class="badge" style="background:var(--red);margin-top:1px;">④</span>
+        <div>
+          <div style="font-weight:700;font-size:12px;margin-bottom:2px;" data-ko="유형별 활동지" data-en="Type-Specific Activity Worksheets">유형별 활동지</div>
+          <div style="font-size:10.5px;color:var(--muted);" data-ko="신앙 유형에 맞는 실천 활동지 · 각 유형당 2종 제공" data-en="Practice worksheets tailored to each faith type · 2 versions provided per type">신앙 유형에 맞는 실천 활동지 · 각 유형당 2종 제공</div>
+        </div>
+      </div>
+    </div>
+    <div class="info-box gold" style="margin-top:12px;">
+      <strong data-ko="중요한 원칙" data-en="Key Principle">중요한 원칙</strong> &nbsp;—&nbsp;
+      <span data-ko="이 시스템은 구역장이 구역원을 분석하는 도구가 아니라, 함께 대화하고 함께 걷기 위한 도구입니다. 결과보다 대화가, 해석보다 경청이 항상 먼저입니다."
+            data-en="This system is not a tool for the cell leader to analyze their members. It is a tool for walking together and having conversations together. Conversation always comes before results; listening always comes before interpretation.">
+        이 시스템은 구역장이 구역원을 분석하는 도구가 아니라, 함께 대화하고 함께 걷기 위한 도구입니다. 결과보다 대화가, 해석보다 경청이 항상 먼저입니다.
+      </span>
+    </div>
+  </div>
+  <div class="pg-footer">
+    <span data-ko="FaithType · 신앙 유형 상담 시스템 · 구역장 사용 가이드" data-en="FaithType · Faith Type Counseling System · Cell Leader User Guide">FaithType · 신앙 유형 상담 시스템 · 구역장 사용 가이드</span>
+    <span>3</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PAGE 4 — 섹션 02 / SECTION 02           -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="pg-header">
+    <h2 data-ko="02 &nbsp; 전체 흐름 한눈에 보기" data-en="02 &nbsp; The Overall Flow at a Glance">02 &nbsp; 전체 흐름 한눈에 보기</h2>
+    <span class="sub">Overview</span>
+  </div>
+  <div class="content">
+    <div class="info-box gold" style="margin-bottom:12px;">
+      <strong data-ko="핵심 원칙" data-en="Core Principle">핵심 원칙</strong> &nbsp;—&nbsp;
+      <span data-ko="모든 단계를 같은 날 진행하지 않아도 됩니다. 각 단계 사이에 충분한 시간을 두고, 구역원이 이해하고 소화한 뒤에 다음 단계로 넘어가 주세요. 서두르지 않는 것이 가장 중요합니다."
+            data-en="You do not need to complete every step on the same day. Allow enough time between each step, and move to the next only after the cell member has had time to understand and process it. Not rushing is the most important thing.">
+        모든 단계를 같은 날 진행하지 않아도 됩니다. 각 단계 사이에 충분한 시간을 두고, 구역원이 이해하고 소화한 뒤에 다음 단계로 넘어가 주세요. 서두르지 않는 것이 가장 중요합니다.
+      </span>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num"><div class="step-circle" style="background:var(--purple);">1</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <div class="step-title" style="color:var(--purple);" data-ko="검사 진행" data-en="Take the Assessment">검사 진행</div>
+        <div class="step-desc" data-ko="구역원이 신앙 유형 검사지를 스스로 응답합니다." data-en="The cell member completes the Faith Type Assessment on their own.">구역원이 신앙 유형 검사지를 스스로 응답합니다.</div>
+        <ul class="step-bullets">
+          <li data-ko="스마트폰 또는 PC로 포털 접속 → 항해자(내담자) 탭 선택" data-en="Access the portal via smartphone or PC → select the Navigator (Counselee) tab">스마트폰 또는 PC로 포털 접속 → 항해자(내담자) 탭 선택</li>
+          <li data-ko="약 15분 소요 · 솔직하게, 오래 생각하지 말고 첫 느낌대로 응답" data-en="Takes approx. 15 minutes · respond honestly and quickly, going with your first feeling">약 15분 소요 · 솔직하게, 오래 생각하지 말고 첫 느낌대로 응답</li>
+          <li data-ko="결과는 JPG(이미지) 또는 PDF로 저장해 보관" data-en="Save the results as a JPG (image) or PDF for your records">결과는 JPG(이미지) 또는 PDF로 저장해 보관</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num"><div class="step-circle" style="background:#2C3E6B;">2</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <div class="step-title" style="color:var(--navy);" data-ko="상담 가이드 정독 — 구역장 준비" data-en="Read the Counseling Guide — Cell Leader Preparation">상담 가이드 정독 — 구역장 준비</div>
+        <div class="step-desc" data-ko="구역원을 만나기 전, 구역장이 해당 유형의 가이드를 미리 천천히 읽어둡니다." data-en="Before meeting with the cell member, the cell leader reads the guide for that type slowly and thoroughly in advance.">구역원을 만나기 전, 구역장이 해당 유형의 가이드를 미리 천천히 읽어둡니다.</div>
+        <ul class="step-bullets">
+          <li data-ko="구역원의 유형 페이지를 집중해서 읽습니다" data-en="Focus on the page for your cell member's type">구역원의 유형 페이지를 집중해서 읽습니다</li>
+          <li data-ko="권장 질문 예시(Section 05)를 미리 파악합니다" data-en="Familiarize yourself with the recommended sample questions (Section 05)">권장 질문 예시(Section 05)를 미리 파악합니다</li>
+          <li data-ko="주의해야 할 패턴(Section 06)과 접근 원칙(Section 03)을 숙지합니다" data-en="Study the patterns to watch for (Section 06) and the approach principles (Section 03)">주의해야 할 패턴(Section 06)과 접근 원칙(Section 03)을 숙지합니다</li>
+          <li data-ko="가이드 전체를 한 번에 다 읽지 않아도 됩니다 — 만남 전날 핵심 섹션만도 충분합니다" data-en="You don't need to read the entire guide at once — reading just the key sections the night before is sufficient">가이드 전체를 한 번에 다 읽지 않아도 됩니다 — 만남 전날 핵심 섹션만도 충분합니다</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num"><div class="step-circle" style="background:var(--red);">3</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <div class="step-title" style="color:var(--red);" data-ko="함께 나누기" data-en="Share Together">함께 나누기</div>
+        <div class="step-desc" data-ko="구역원과 만나 결과를 함께 나누고 대화를 시작합니다." data-en="Meet with the cell member to share the results and start a conversation.">구역원과 만나 결과를 함께 나누고 대화를 시작합니다.</div>
+        <ul class="step-bullets">
+          <li data-ko='"결과를 보고 어떤 느낌이 들었나요?"로 시작합니다' data-en='"How did you feel when you saw the results?" — start here'>"결과를 보고 어떤 느낌이 들었나요?"로 시작합니다</li>
+          <li data-ko="구역장의 해석보다 구역원의 느낌을 먼저 듣습니다" data-en="Listen to the cell member's feelings before offering your interpretation">구역장의 해석보다 구역원의 느낌을 먼저 듣습니다</li>
+          <li data-ko="한 번의 만남으로 모든 것을 다루려 하지 마세요" data-en="Don't try to cover everything in a single meeting">한 번의 만남으로 모든 것을 다루려 하지 마세요</li>
+          <li data-ko="첫 만남은 30~45분, 2~3회에 나눠 진행해도 됩니다" data-en="The first meeting should be 30–45 minutes; it's fine to spread it over 2–3 sessions">첫 만남은 30~45분, 2~3회에 나눠 진행해도 됩니다</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num"><div class="step-circle" style="background:var(--gold);">4</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <div class="step-title" style="color:#8A6020;" data-ko="활동지 선택 및 진행" data-en="Choose and Work Through Worksheets">활동지 선택 및 진행</div>
+        <div class="step-desc" data-ko="충분한 대화 이후, 유형에 맞는 활동지를 함께 선택합니다. 같은 날 바로 시작하지 않아도 됩니다." data-en="After sufficient conversation, choose a worksheet together that fits the type. You don't have to start it on the same day.">충분한 대화 이후, 유형에 맞는 활동지를 함께 선택합니다. 같은 날 바로 시작하지 않아도 됩니다.</div>
+        <ul class="step-bullets">
+          <li data-ko="유형별 활동지 2종 중 구역원이 원하는 것을 선택합니다" data-en="The cell member chooses from 2 worksheet options for their type">유형별 활동지 2종 중 구역원이 원하는 것을 선택합니다</li>
+          <li data-ko='활동지는 "과제"가 아닌 "대화 재료"입니다' data-en='Worksheets are "conversation material," not "homework"'>활동지는 "과제"가 아닌 "대화 재료"입니다</li>
+          <li data-ko="다음 만남 때 함께 읽으며 이야기를 나눕니다" data-en="At the next meeting, read through it together and discuss">다음 만남 때 함께 읽으며 이야기를 나눕니다</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num"><div class="step-circle" style="background:var(--sage);">5</div></div>
+      <div class="step-body">
+        <div class="step-title" style="color:var(--sage);" data-ko="성장 플랜 작성" data-en="Write the Growth Plan">성장 플랜 작성</div>
+        <div class="step-desc" data-ko="활동지까지 경험한 뒤, 1년 성장 로드맵을 함께 작성합니다. 가장 마지막에 자연스럽게 연결합니다." data-en="After experiencing the worksheets, write a 1-year growth roadmap together. This connects naturally at the very end of the process.">활동지까지 경험한 뒤, 1년 성장 로드맵을 함께 작성합니다. 가장 마지막에 자연스럽게 연결합니다.</div>
+        <ul class="step-bullets">
+          <li data-ko="구역원의 언어로 목표를 함께 적습니다" data-en="Write goals together using the cell member's own words">구역원의 언어로 목표를 함께 적습니다</li>
+          <li data-ko="3개월마다 함께 열어보고 변화를 확인합니다" data-en="Review it together every 3 months and check for change and growth">3개월마다 함께 열어보고 변화를 확인합니다</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="pg-footer">
+    <span data-ko="FaithType · 신앙 유형 상담 시스템 · 구역장 사용 가이드" data-en="FaithType · Faith Type Counseling System · Cell Leader User Guide">FaithType · 신앙 유형 상담 시스템 · 구역장 사용 가이드</span>
+    <span>4</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PAGE 5 — 섹션 03 (1) / SECTION 03 (1)   -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="pg-header">
+    <h2 data-ko="03 &nbsp; 단계별 사용법" data-en="03 &nbsp; Step-by-Step Instructions">03 &nbsp; 단계별 사용법</h2>
+    <span class="sub">Step-by-Step Guide</span>
+  </div>
+  <div class="content">
+
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+      <span class="badge" style="background:var(--purple);">①</span>
+      <span class="section-title" style="margin-bottom:0;" data-ko="검사 진행하기" data-en="Taking the Assessment">검사 진행하기</span>
+    </div>
+    <div class="info-box light" style="margin-bottom:8px;">
+      <strong data-ko="접속 방법" data-en="How to Access">접속 방법</strong> &nbsp;—&nbsp;
+      <span data-ko="포털 페이지(index.html) 접속 → 항해자(내담자) 탭 → 신앙 유형 검사 클릭" data-en="Go to the portal page (index.html) → select the Navigator (Counselee) tab → click Faith Type Assessment">포털 페이지(index.html) 접속 → 항해자(내담자) 탭 → 신앙 유형 검사 클릭</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px;">
+      <div style="padding:8px 12px;background:var(--light);border-radius:4px;font-size:10.5px;">
+        <div style="font-weight:700;color:var(--purple);margin-bottom:3px;" data-ko="검사 전 안내" data-en="Before the Assessment">검사 전 안내</div>
+        <span data-ko="심리 검사가 아니라 신앙 대화를 위한 도구임을 미리 설명해 주세요." data-en="Explain in advance that this is a tool for faith conversation, not a psychological test.">심리 검사가 아니라 신앙 대화를 위한 도구임을 미리 설명해 주세요.</span>
+      </div>
+      <div style="padding:8px 12px;background:var(--light);border-radius:4px;font-size:10.5px;">
+        <div style="font-weight:700;color:var(--purple);margin-bottom:3px;" data-ko="응답 방식" data-en="How to Answer">응답 방식</div>
+        <span data-ko="솔직하게, 오래 생각하지 말고 첫 느낌대로 응답하도록 안내합니다." data-en="Instruct them to respond honestly and quickly, going with their first instinct.">솔직하게, 오래 생각하지 말고 첫 느낌대로 응답하도록 안내합니다.</span>
+      </div>
+      <div style="padding:8px 12px;background:var(--light);border-radius:4px;font-size:10.5px;">
+        <div style="font-weight:700;color:var(--purple);margin-bottom:3px;" data-ko="결과 저장" data-en="Saving Results">결과 저장</div>
+        <span data-ko="완료 후 JPG 또는 PDF로 저장합니다. 구역장과 공유할 때 사용합니다." data-en="After completing, save as JPG or PDF. This will be used when sharing with the cell leader.">완료 후 JPG 또는 PDF로 저장합니다. 구역장과 공유할 때 사용합니다.</span>
+      </div>
+      <div style="padding:8px 12px;background:var(--light);border-radius:4px;font-size:10.5px;">
+        <div style="font-weight:700;color:var(--purple);margin-bottom:3px;" data-ko="소요 시간" data-en="Time Required">소요 시간</div>
+        <span data-ko="약 15분. 집중할 수 있는 조용한 환경에서 혼자 응답하는 것을 권장합니다." data-en="Approx. 15 minutes. It is recommended to complete it alone in a quiet environment where you can focus.">약 15분. 집중할 수 있는 조용한 환경에서 혼자 응답하는 것을 권장합니다.</span>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+      <span class="badge" style="background:var(--sage);">②</span>
+      <span class="section-title" style="margin-bottom:0;" data-ko="결과 확인 — 구역원이 충분히 소화하도록" data-en="Reviewing Results — Let the Cell Member Absorb Them">결과 확인 — 구역원이 충분히 소화하도록</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px;">
+      <div style="display:flex;gap:8px;font-size:10.5px;align-items:flex-start;"><span style="color:var(--sage);font-weight:700;flex-shrink:0;">▸</span><span data-ko="결과를 받은 날 바로 공유하도록 서두르지 마세요. 하루 이틀 혼자 읽는 시간을 먼저 줍니다." data-en="Don't rush them to share on the day they receive the results. Give them a day or two to read it on their own first.">결과를 받은 날 바로 공유하도록 서두르지 마세요. 하루 이틀 혼자 읽는 시간을 먼저 줍니다.</span></div>
+      <div style="display:flex;gap:8px;font-size:10.5px;align-items:flex-start;"><span style="color:var(--sage);font-weight:700;flex-shrink:0;">▸</span><span data-ko="결과 화면에는 신앙 유형, 사명 유형, 적성, 영역별 점수가 포함됩니다." data-en="The results screen includes faith type, calling type, aptitudes, and scores by domain.">결과 화면에는 신앙 유형, 사명 유형, 적성, 영역별 점수가 포함됩니다.</span></div>
+      <div style="display:flex;gap:8px;font-size:10.5px;align-items:flex-start;"><span style="color:var(--sage);font-weight:700;flex-shrink:0;">▸</span><span data-ko='"가장 공감되는 부분이 어디예요?" 질문 하나만 남겨두고 다음 만남을 기다립니다.' data-en='"What part resonated with you the most?" — leave just this one question and wait for the next meeting.'>"가장 공감되는 부분이 어디예요?" 질문 하나만 남겨두고 다음 만남을 기다립니다.</span></div>
+      <div style="display:flex;gap:8px;font-size:10.5px;align-items:flex-start;"><span style="color:var(--sage);font-weight:700;flex-shrink:0;">▸</span><span data-ko="구역원이 결과를 충분히 소화한 뒤에야 다음 단계의 대화가 풍성해집니다." data-en="Only after the cell member has fully absorbed the results will the next stage of conversation be rich.">구역원이 결과를 충분히 소화한 뒤에야 다음 단계의 대화가 풍성해집니다.</span></div>
+    </div>
+
+    <hr class="divider">
+
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+      <span class="badge" style="background:#2C3E6B;">③</span>
+      <span class="section-title" style="margin-bottom:0;" data-ko="상담 가이드 정독 — 구역장 필독" data-en="Reading the Counseling Guide — Required for Cell Leaders">상담 가이드 정독 — 구역장 필독</span>
+    </div>
+    <p style="font-size:10.5px;color:var(--muted);margin-bottom:8px;" data-ko="구역원을 만나기 전, 해당 유형의 상담 가이드를 천천히 읽어두세요. 한 번에 다 읽지 않아도 됩니다." data-en="Before meeting with the cell member, slowly read through the counseling guide for that type. You don't have to read it all at once.">구역원을 만나기 전, 해당 유형의 상담 가이드를 천천히 읽어두세요. 한 번에 다 읽지 않아도 됩니다.</p>
+    <div class="guide-grid">
+      <div class="guide-cell"><span class="sec">Section 01</span><span class="stitle" data-ko="유형 프로파일" data-en="Type Profile">유형 프로파일</span><span class="sdesc" data-ko="이 유형이 어떤 사람인지 핵심 특징 파악" data-en="Understanding the key characteristics of this type">이 유형이 어떤 사람인지 핵심 특징 파악</span></div>
+      <div class="guide-cell"><span class="sec">Section 02</span><span class="stitle" data-ko="강점과 주의 지점" data-en="Strengths &amp; Points of Caution">강점과 주의 지점</span><span class="sdesc" data-ko="자원과 취약 지점을 함께 파악" data-en="Understanding both resources and areas of vulnerability">자원과 취약 지점을 함께 파악</span></div>
+      <div class="guide-cell"><span class="sec">Section 03</span><span class="stitle" data-ko="상담 접근 원칙" data-en="Counseling Approach Principles">상담 접근 원칙</span><span class="sdesc" data-ko="어떻게 대화해야 하는지 방법" data-en="How to have the conversation">어떻게 대화해야 하는지 방법</span></div>
+      <div class="guide-cell"><span class="sec">Section 04</span><span class="stitle" data-ko="축별 해석 포인트" data-en="Axis-by-Axis Interpretation">축별 해석 포인트</span><span class="sdesc" data-ko="영역 점수를 상담 언어로 읽는 방법" data-en="How to read domain scores in counseling language">영역 점수를 상담 언어로 읽는 방법</span></div>
+      <div class="guide-cell"><span class="sec">Section 05 ★</span><span class="stitle" data-ko="권장 질문 예시" data-en="Recommended Sample Questions">권장 질문 예시</span><span class="sdesc" data-ko="실제 대화에 쓸 수 있는 질문 목록" data-en="A list of questions you can use in real conversations">실제 대화에 쓸 수 있는 질문 목록</span></div>
+      <div class="guide-cell"><span class="sec">Section 06</span><span class="stitle" data-ko="주의해야 할 패턴" data-en="Patterns to Watch For">주의해야 할 패턴</span><span class="sdesc" data-ko="위험 신호와 대응 방법" data-en="Warning signs and how to respond">위험 신호와 대응 방법</span></div>
+      <div class="guide-cell"><span class="sec">Section 07</span><span class="stitle" data-ko="동반 성장 방향" data-en="Direction for Shared Growth">동반 성장 방향</span><span class="sdesc" data-ko="다음 단계로 이어가는 방향 설정" data-en="Setting direction for the next stage">다음 단계로 이어가는 방향 설정</span></div>
+      <div class="guide-cell"><span class="sec">Section 08</span><span class="stitle" data-ko="신앙 성장 미션" data-en="Faith Growth Mission">신앙 성장 미션</span><span class="sdesc" data-ko="구역원에게 제안할 실천 과제" data-en="Practical exercises to suggest to the cell member">구역원에게 제안할 실천 과제</span></div>
+    </div>
+  </div>
+  <div class="pg-footer">
+    <span data-ko="FaithType · 신앙 유형 상담 시스템 · 구역장 사용 가이드" data-en="FaithType · Faith Type Counseling System · Cell Leader User Guide">FaithType · 신앙 유형 상담 시스템 · 구역장 사용 가이드</span>
+    <span>5</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PAGE 6 — 섹션 03 (2) / SECTION 03 (2)   -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="pg-header">
+    <h2 data-ko="03 &nbsp; 단계별 사용법 (계속)" data-en="03 &nbsp; Step-by-Step Instructions (continued)">03 &nbsp; 단계별 사용법 (계속)</h2>
+    <span class="sub">Step-by-Step Guide</span>
+  </div>
+  <div class="content">
+
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+      <span class="badge" style="background:var(--red);">④</span>
+      <span class="section-title" style="margin-bottom:0;" data-ko="함께 나누기" data-en="Sharing Together">함께 나누기</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;">
+      <div style="display:flex;gap:8px;font-size:10.5px;align-items:flex-start;"><span style="color:var(--red);font-weight:700;flex-shrink:0;" data-ko="◆ 대화 시작" data-en="◆ Starting the Conversation">◆ 대화 시작</span><span style="color:var(--muted);" data-ko='"결과를 보고 어떤 느낌이 들었나요?"로 시작합니다. 구역장의 해석보다 구역원의 느낌을 먼저 듣습니다.' data-en='"How did you feel when you saw the results?" — start here. Listen to the cell member\'s feelings before offering your interpretation.'>"결과를 보고 어떤 느낌이 들었나요?"로 시작합니다. 구역장의 해석보다 구역원의 느낌을 먼저 듣습니다.</span></div>
+      <div style="display:flex;gap:8px;font-size:10.5px;align-items:flex-start;"><span style="color:var(--red);font-weight:700;flex-shrink:0;" data-ko="◆ 질문 활용" data-en="◆ Using Questions">◆ 질문 활용</span><span style="color:var(--muted);" data-ko="가이드 Section 05의 권장 질문을 자연스럽게 활용합니다. 전부 사용하지 않아도 됩니다." data-en="Naturally incorporate the recommended questions from Guide Section 05. You don't have to use all of them.">가이드 Section 05의 권장 질문을 자연스럽게 활용합니다. 전부 사용하지 않아도 됩니다.</span></div>
+      <div style="display:flex;gap:8px;font-size:10.5px;align-items:flex-start;"><span style="color:var(--red);font-weight:700;flex-shrink:0;" data-ko="◆ 시간 배분" data-en="◆ Time Allocation">◆ 시간 배분</span><span style="color:var(--muted);" data-ko="첫 만남은 30~45분이 적당합니다. 2~3회에 나눠 이야기해도 됩니다. 모든 내용을 한 번에 다루려 하지 마세요." data-en="30–45 minutes is ideal for the first meeting. It's fine to spread the conversation over 2–3 sessions. Don't try to cover everything at once.">첫 만남은 30~45분이 적당합니다. 2~3회에 나눠 이야기해도 됩니다. 모든 내용을 한 번에 다루려 하지 마세요.</span></div>
+      <div style="display:flex;gap:8px;font-size:10.5px;align-items:flex-start;"><span style="color:var(--red);font-weight:700;flex-shrink:0;" data-ko="◆ 마무리" data-en="◆ Closing">◆ 마무리</span><span style="color:var(--muted);" data-ko='"다음에 한 가지 더 이야기 나눠도 될까요?"로 자연스럽게 연속성을 만들어 주세요.' data-en='"Could we talk about one more thing next time?" — create natural continuity this way.'>"다음에 한 가지 더 이야기 나눠도 될까요?"로 자연스럽게 연속성을 만들어 주세요.</span></div>
+    </div>
+
+    <hr class="divider">
+
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+      <span class="badge" style="background:var(--gold);">⑤</span>
+      <span class="section-title" style="margin-bottom:0;" data-ko="활동지 선택 및 진행" data-en="Choosing and Working Through Worksheets">활동지 선택 및 진행</span>
+    </div>
+    <p style="font-size:10.5px;color:var(--muted);margin-bottom:8px;" data-ko="충분한 대화가 이루어진 다음에 활동지를 선택합니다. 같은 날 바로 진행할 필요 없이, 다음 만남에서 선택해도 좋습니다." data-en="Choose the worksheet after sufficient conversation has taken place. There's no need to start it on the same day — it's fine to choose it at the next meeting.">충분한 대화가 이루어진 다음에 활동지를 선택합니다. 같은 날 바로 진행할 필요 없이, 다음 만남에서 선택해도 좋습니다.</p>
+    <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:12px;">
+      <div style="display:flex;gap:8px;font-size:10.5px;align-items:flex-start;"><span style="color:var(--gold);flex-shrink:0;">●</span><span data-ko="각 유형당 활동지 2종이 있습니다. 구역원이 직접 원하는 것을 고르게 합니다." data-en="There are 2 worksheets per type. Let the cell member choose the one they want.">각 유형당 활동지 2종이 있습니다. 구역원이 직접 원하는 것을 고르게 합니다.</span></div>
+      <div style="display:flex;gap:8px;font-size:10.5px;align-items:flex-start;"><span style="color:var(--gold);flex-shrink:0;">●</span><span data-ko='활동지는 "과제"가 아닙니다. 부담 없이 할 수 있는 것으로 선택합니다.' data-en='Worksheets are not "homework." Help them choose something they can do without pressure.'>활동지는 "과제"가 아닙니다. 부담 없이 할 수 있는 것으로 선택합니다.</span></div>
+      <div style="display:flex;gap:8px;font-size:10.5px;align-items:flex-start;"><span style="color:var(--gold);flex-shrink:0;">●</span><span data-ko="완성도보다 참여 자체를 칭찬하고 격려합니다." data-en="Praise and encourage their participation itself, more than the quality of completion.">완성도보다 참여 자체를 칭찬하고 격려합니다.</span></div>
+      <div style="display:flex;gap:8px;font-size:10.5px;align-items:flex-start;"><span style="color:var(--gold);flex-shrink:0;">●</span><span data-ko="다음 만남 때 활동지를 함께 읽으며 이야기를 나누는 것이 핵심입니다." data-en="The key is reading through the worksheet together and sharing at the next meeting.">다음 만남 때 활동지를 함께 읽으며 이야기를 나누는 것이 핵심입니다.</span></div>
+      <div style="display:flex;gap:8px;font-size:10.5px;align-items:flex-start;"><span style="color:var(--gold);flex-shrink:0;">●</span><span data-ko="한 활동지를 마무리한 후 다음 것으로 넘어가도 됩니다. 서두르지 마세요." data-en="After finishing one worksheet, you may move on to the next. Don't rush.">한 활동지를 마무리한 후 다음 것으로 넘어가도 됩니다. 서두르지 마세요.</span></div>
+    </div>
+
+    <hr class="divider">
+
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+      <span class="badge" style="background:var(--sage);">⑥</span>
+      <span class="section-title" style="margin-bottom:0;" data-ko="성장 플랜지 작성" data-en="Writing the Growth Plan Sheet">성장 플랜지 작성</span>
+    </div>
+    <p style="font-size:10.5px;color:var(--muted);margin-bottom:8px;" data-ko="성장 플랜지는 검사·대화·활동지가 모두 쌓인 뒤에 자연스럽게 연결합니다. 처음 만남에서 바로 작성하지 않아도 됩니다." data-en="The growth plan sheet connects naturally after the assessment, conversation, and worksheets have all built up. You don't need to complete it at the very first meeting.">성장 플랜지는 검사·대화·활동지가 모두 쌓인 뒤에 자연스럽게 연결합니다. 처음 만남에서 바로 작성하지 않아도 됩니다.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+      <div style="padding:8px 12px;background:var(--light);border-radius:4px;font-size:10.5px;"><div style="font-weight:700;color:var(--sage);margin-bottom:3px;" data-ko="작성 시기" data-en="When to Complete">작성 시기</div><span data-ko="활동지를 1~2회 진행한 뒤, 자연스럽게 이어가세요." data-en="After 1–2 worksheet sessions, let it flow naturally into this step.">활동지를 1~2회 진행한 뒤, 자연스럽게 이어가세요.</span></div>
+      <div style="padding:8px 12px;background:var(--light);border-radius:4px;font-size:10.5px;"><div style="font-weight:700;color:var(--sage);margin-bottom:3px;" data-ko="함께 작성" data-en="Complete Together">함께 작성</div><span data-ko="구역원과의 대화 내용을 바탕으로 플랜지를 채웁니다." data-en="Fill in the plan based on the content of your conversations with the cell member.">구역원과의 대화 내용을 바탕으로 플랜지를 채웁니다.</span></div>
+      <div style="padding:8px 12px;background:var(--light);border-radius:4px;font-size:10.5px;"><div style="font-weight:700;color:var(--sage);margin-bottom:3px;" data-ko="3개월 점검" data-en="3-Month Check-In">3개월 점검</div><span data-ko="3개월마다 함께 플랜지를 열어보고 변화를 확인하고 격려합니다." data-en="Every 3 months, open the plan together, observe changes, and offer encouragement.">3개월마다 함께 플랜지를 열어보고 변화를 확인하고 격려합니다.</span></div>
+    </div>
+
+    <hr class="divider">
+
+    <p class="section-title" style="margin-bottom:8px;" data-ko="권장 진행 타임라인" data-en="Recommended Progress Timeline">권장 진행 타임라인</p>
+    <div class="timeline">
+      <div class="tl-row"><div class="tl-week" style="background:var(--purple);"></div><div class="tl-body" style="background:var(--light);"><div class="tl-title" data-ko="검사 진행" data-en="Assessment">검사 진행</div><div class="tl-desc" data-ko="구역원이 혼자 검사를 완료하고 저장합니다. 구역장은 바로 해석하지 않습니다." data-en="The cell member completes and saves the assessment on their own. The cell leader does not interpret it immediately.">구역원이 혼자 검사를 완료하고 저장합니다. 구역장은 바로 해석하지 않습니다.</div></div></div>
+      <div class="tl-row"><div class="tl-week" style="background:var(--sage);"></div><div class="tl-body" style="background:var(--light);"><div class="tl-title" data-ko="결과 소화 기간" data-en="Results Absorption Period">결과 소화 기간</div><div class="tl-desc" data-ko="구역원이 결과를 스스로 읽는 시간. 구역장은 이 기간에 상담 가이드를 정독합니다." data-en="Time for the cell member to read the results on their own. The cell leader uses this period to read the counseling guide thoroughly.">구역원이 결과를 스스로 읽는 시간. 구역장은 이 기간에 상담 가이드를 정독합니다.</div></div></div>
+      <div class="tl-row"><div class="tl-week" style="background:#2C3E6B;"></div><div class="tl-body" style="background:var(--light);"><div class="tl-title" data-ko="첫 번째 대화" data-en="First Conversation">첫 번째 대화</div><div class="tl-desc" data-ko="구역원의 느낌과 반응을 중심으로 30~45분 대화합니다." data-en="A 30–45 minute conversation centered on the cell member's feelings and reactions.">구역원의 느낌과 반응을 중심으로 30~45분 대화합니다.</div></div></div>
+      <div class="tl-row"><div class="tl-week" style="background:var(--red);"></div><div class="tl-body" style="background:var(--light);"><div class="tl-title" data-ko="활동지 진행" data-en="Working Through Worksheets">활동지 진행</div><div class="tl-desc" data-ko="구역원이 선택한 활동지를 작성 후, 다음 만남에서 함께 나눕니다." data-en="The cell member completes the chosen worksheet, then shares it together at the next meeting.">구역원이 선택한 활동지를 작성 후, 다음 만남에서 함께 나눕니다.</div></div></div>
+      <div class="tl-row"><div class="tl-week" style="background:var(--gold);"></div><div class="tl-body" style="background:var(--light);"><div class="tl-title" data-ko="성장 플랜지 작성" data-en="Writing the Growth Plan Sheet">성장 플랜지 작성</div><div class="tl-desc" data-ko="충분한 대화가 쌓인 뒤, 1년 로드맵을 작성합니다." data-en="After sufficient conversation has accumulated, write the 1-year roadmap together.">충분한 대화가 쌓인 뒤, 1년 로드맵을 작성합니다.</div></div></div>
+      <div class="tl-row"><div class="tl-week" style="background:var(--sage);"></div><div class="tl-body" style="background:var(--light);"><div class="tl-title" data-ko="정기 점검" data-en="Regular Check-In">정기 점검</div><div class="tl-desc" data-ko="플랜지를 열어보고 변화와 성장을 확인합니다." data-en="Open the plan and confirm changes and growth.">플랜지를 열어보고 변화와 성장을 확인합니다.</div></div></div>
+    </div>
+  </div>
+  <div class="pg-footer">
+    <span data-ko="FaithType · 신앙 유형 상담 시스템 · 구역장 사용 가이드" data-en="FaithType · Faith Type Counseling System · Cell Leader User Guide">FaithType · 신앙 유형 상담 시스템 · 구역장 사용 가이드</span>
+    <span>6</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PAGE 7 — 섹션 04 / SECTION 04           -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="pg-header">
+    <h2 data-ko="04 &nbsp; 8가지 신앙 유형 요약" data-en="04 &nbsp; Summary of the 8 Faith Types">04 &nbsp; 8가지 신앙 유형 요약</h2>
+    <span class="sub">8 Faith Types</span>
+  </div>
+  <div class="content">
+    <p style="font-size:10.5px;color:var(--muted);margin-bottom:10px;" data-ko="검사 결과로 나오는 8가지 유형입니다. 상담 전 해당 유형을 간단히 파악해 두세요. 각 유형의 상세 설명은 상담 가이드에 있습니다." data-en="These are the 8 types that appear in the assessment results. Get a basic overview of the relevant type before counseling. Detailed descriptions for each type can be found in the counseling guide.">검사 결과로 나오는 8가지 유형입니다. 상담 전 해당 유형을 간단히 파악해 두세요. 각 유형의 상세 설명은 상담 가이드에 있습니다.</p>
+    <div class="type-grid">
+      <div class="type-card" style="background:#EEEDFE;"><div class="type-dot" style="background:#534AB7;"></div><div><div class="type-name" style="color:#534AB7;" data-ko="뿌리형" data-en="Roots Type">뿌리형</div><div class="type-sub" data-ko="신앙과 삶이 깊이 연결된 사람" data-en="A person whose faith and life are deeply connected">신앙과 삶이 깊이 연결된 사람</div><div class="type-tip" style="color:#3C3489;" data-ko="이미 신앙이 깊습니다. 더 쌓는 것보다 쉬고 나누는 것이 필요합니다." data-en="Their faith is already deep. What they need is not to add more, but to rest and share.">이미 신앙이 깊습니다. 더 쌓는 것보다 쉬고 나누는 것이 필요합니다.</div></div></div>
+      <div class="type-card" style="background:#E1F5EE;"><div class="type-dot" style="background:#0F6E56;"></div><div><div class="type-name" style="color:#0F6E56;" data-ko="씨앗형" data-en="Seed Type">씨앗형</div><div class="type-sub" data-ko="가능성이 풍성한 신앙 초기자" data-en="An early-stage believer full of potential">가능성이 풍성한 신앙 초기자</div><div class="type-tip" style="color:#085041;" data-ko="따뜻한 성품을 가졌지만 말씀의 뿌리가 아직 얕습니다. 질문을 환영해 주세요." data-en="They have a warm character, but their roots in the Word are still shallow. Welcome their questions.">따뜻한 성품을 가졌지만 말씀의 뿌리가 아직 얕습니다. 질문을 환영해 주세요.</div></div></div>
+      <div class="type-card" style="background:#E6F1FB;"><div class="type-dot" style="background:#185FA5;"></div><div><div class="type-name" style="color:#185FA5;" data-ko="터전형" data-en="Ground Type">터전형</div><div class="type-sub" data-ko="좋은 환경에 있는 신앙인" data-en="A believer in a good environment">좋은 환경에 있는 신앙인</div><div class="type-tip" style="color:#0C447C;" data-ko="주변 환경의 도움을 받고 있습니다. 내적 확신을 갖도록 도와주세요." data-en="They are benefiting from their surroundings. Help them develop inner conviction.">주변 환경의 도움을 받고 있습니다. 내적 확신을 갖도록 도와주세요.</div></div></div>
+      <div class="type-card" style="background:#EAF3DE;"><div class="type-dot" style="background:#3B6D11;"></div><div><div class="type-name" style="color:#3B6D11;" data-ko="결실형" data-en="Fruit Type">결실형</div><div class="type-sub" data-ko="삶에서 열매 맺는 신앙인" data-en="A believer bearing fruit in daily life">삶에서 열매 맺는 신앙인</div><div class="type-tip" style="color:#27500A;" data-ko="신앙이 성숙했습니다. 신선함을 회복하고 나눔의 자리를 찾는 것이 필요합니다." data-en="Their faith is mature. They need to recover freshness and find opportunities to give and share.">신앙이 성숙했습니다. 신선함을 회복하고 나눔의 자리를 찾는 것이 필요합니다.</div></div></div>
+      <div class="type-card" style="background:#FAEEDA;"><div class="type-dot" style="background:#854F0B;"></div><div><div class="type-name" style="color:#854F0B;" data-ko="광야형" data-en="Wilderness Type">광야형</div><div class="type-sub" data-ko="어려운 환경을 지나는 신앙인" data-en="A believer passing through a difficult environment">어려운 환경을 지나는 신앙인</div><div class="type-tip" style="color:#633806;" data-ko="환경이 많이 힘든 상태입니다. 작은 한 걸음과 연결을 유지하는 것이 중요합니다." data-en="Their circumstances are very difficult. Taking small steps and maintaining connection are what matter most.">환경이 많이 힘든 상태입니다. 작은 한 걸음과 연결을 유지하는 것이 중요합니다.</div></div></div>
+      <div class="type-card" style="background:#FAECE7;"><div class="type-dot" style="background:#993C1D;"></div><div><div class="type-name" style="color:#993C1D;" data-ko="탐색형" data-en="Seeker Type">탐색형</div><div class="type-sub" data-ko="진리를 찾아가는 신앙인" data-en="A believer searching for truth">진리를 찾아가는 신앙인</div><div class="type-tip" style="color:#712B13;" data-ko="아직 확신이 없습니다. 질문을 판단하지 말고 함께 탐색해 주세요." data-en="They don't yet have certainty. Don't judge their questions — explore them together.">아직 확신이 없습니다. 질문을 판단하지 말고 함께 탐색해 주세요.</div></div></div>
+      <div class="type-card" style="background:#FBEAF0;"><div class="type-dot" style="background:#993556;"></div><div><div class="type-name" style="color:#993556;" data-ko="인내형" data-en="Endurance Type">인내형</div><div class="type-sub" data-ko="지쳐도 신앙을 붙잡고 있는 사람" data-en="A person holding on to faith even while exhausted">지쳐도 신앙을 붙잡고 있는 사람</div><div class="type-tip" style="color:#72243E;" data-ko="많이 지쳐 있습니다. 쉬어도 된다는 허락을 먼저 주세요. 더 하라고 하지 마세요." data-en="They are deeply tired. Give them permission to rest first. Don't ask them to do more.">많이 지쳐 있습니다. 쉬어도 된다는 허락을 먼저 주세요. 더 하라고 하지 마세요.</div></div></div>
+      <div class="type-card" style="background:#F1EFE8;"><div class="type-dot" style="background:#5F5E5A;"></div><div><div class="type-name" style="color:#5F5E5A;" data-ko="준비형" data-en="Preparation Type">준비형</div><div class="type-sub" data-ko="신앙의 첫 걸음을 떼는 사람" data-en="A person taking their first steps in faith">신앙의 첫 걸음을 떼는 사람</div><div class="type-tip" style="color:#444441;" data-ko="모든 것이 새롭고 낯섭니다. 따뜻한 환영과 긍정적인 첫 경험이 중요합니다." data-en="Everything is new and unfamiliar. A warm welcome and a positive first experience are essential.">모든 것이 새롭고 낯섭니다. 따뜻한 환영과 긍정적인 첫 경험이 중요합니다.</div></div></div>
+    </div>
+    <div class="info-box navy" style="margin-top:10px;">
+      <strong data-ko="모든 유형은 동등합니다." data-en="All types are equal.">모든 유형은 동등합니다.</strong> &nbsp;
+      <span data-ko="어떤 유형이 더 좋거나 나쁜 것이 아닙니다. 각 유형은 지금 그 사람의 신앙 여정을 보여줄 뿐입니다. 유형끼리 비교하거나 서열을 매기지 마세요." data-en="No type is better or worse than another. Each type simply reflects where that person is on their faith journey right now. Do not compare types or rank them in order.">어떤 유형이 더 좋거나 나쁜 것이 아닙니다. 각 유형은 지금 그 사람의 신앙 여정을 보여줄 뿐입니다. 유형끼리 비교하거나 서열을 매기지 마세요.</span>
+    </div>
+  </div>
+  <div class="pg-footer">
+    <span data-ko="FaithType · 신앙 유형 상담 시스템 · 구역장 사용 가이드" data-en="FaithType · Faith Type Counseling System · Cell Leader User Guide">FaithType · 신앙 유형 상담 시스템 · 구역장 사용 가이드</span>
+    <span>7</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PAGE 8 — 섹션 05 / SECTION 05           -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="pg-header">
+    <h2 data-ko="05 &nbsp; 자주 하는 실수 &amp; 주의사항" data-en="05 &nbsp; Common Mistakes &amp; Cautions">05 &nbsp; 자주 하는 실수 &amp; 주의사항</h2>
+    <span class="sub">Common Mistakes &amp; Cautions</span>
+  </div>
+  <div class="content">
+
+    <div class="mistake-item"><span class="mistake-badge" data-ko="실수 01" data-en="Mistake 01">실수 01</span><div><div class="mistake-title" data-ko='"이 유형이니까 이렇게 해야 해"라고 단정 짓기' data-en='Assuming "Because they\'re this type, they must be like this"'>"이 유형이니까 이렇게 해야 해"라고 단정 짓기</div><div class="mistake-body" data-ko="검사 결과는 참고 자료입니다. 사람은 결과보다 복잡합니다. 결과가 구역원을 온전히 설명하지는 않습니다. 결과를 먼저 말하기보다 &quot;이 부분은 어떻게 느끼세요?&quot;라고 물어보는 것이 먼저입니다." data-en='Assessment results are reference material. People are more complex than their results. The results do not fully describe a cell member. Before stating the result, ask first: "How do you feel about this part?"'>검사 결과는 참고 자료입니다. 사람은 결과보다 복잡합니다. 결과가 구역원을 온전히 설명하지는 않습니다. 결과를 먼저 말하기보다 "이 부분은 어떻게 느끼세요?"라고 물어보는 것이 먼저입니다.</div></div></div>
+
+    <div class="mistake-item"><span class="mistake-badge" data-ko="실수 02" data-en="Mistake 02">실수 02</span><div><div class="mistake-title" data-ko="모든 단계를 한 번에 진행하려 하기" data-en="Trying to complete all steps at once">모든 단계를 한 번에 진행하려 하기</div><div class="mistake-body" data-ko="검사, 결과 확인, 대화, 활동지, 성장 플랜을 한 자리에서 다 끝내려 하면 구역원이 압도됩니다. 각 단계 사이에 충분한 시간을 두고, 구역원이 소화할 여유를 주세요." data-en="If you try to finish the assessment, results review, conversation, worksheets, and growth plan all in one sitting, the cell member will feel overwhelmed. Allow enough time between each step and give the member space to absorb it all.">검사, 결과 확인, 대화, 활동지, 성장 플랜을 한 자리에서 다 끝내려 하면 구역원이 압도됩니다. 각 단계 사이에 충분한 시간을 두고, 구역원이 소화할 여유를 주세요.</div></div></div>
+
+    <div class="mistake-item"><span class="mistake-badge" data-ko="실수 03" data-en="Mistake 03">실수 03</span><div><div class="mistake-title" data-ko="결과를 다른 구역원과 비교하기" data-en="Comparing results with other cell members">결과를 다른 구역원과 비교하기</div><div class="mistake-body" data-ko='"A 형제는 뿌리형이고 B 자매는 씨앗형이니까..."처럼 유형을 서열화하거나 비교하지 마세요. 모든 유형은 동등하며, 각 사람의 지금 여정을 보여줍니다.' data-en='Avoid ranking or comparing types — for example, "Brother A is a Roots Type and Sister B is a Seed Type, so..." All types are equal and reflect each person\'s current journey.'>"A 형제는 뿌리형이고 B 자매는 씨앗형이니까..."처럼 유형을 서열화하거나 비교하지 마세요. 모든 유형은 동등하며, 각 사람의 지금 여정을 보여줍니다.</div></div></div>
+
+    <div class="mistake-item"><span class="mistake-badge" data-ko="실수 04" data-en="Mistake 04">실수 04</span><div><div class="mistake-title" data-ko='활동지를 "숙제"로 내주기' data-en='Giving worksheets as "homework"'>활동지를 "숙제"로 내주기</div><div class="mistake-body" data-ko='"다음 주까지 해 오세요"라는 방식은 부담이 됩니다. "이번 주에 한번 시도해보고, 어떠셨는지 다음에 이야기 나눠요"처럼 가볍게 제안해 주세요. 못 해왔어도 "괜찮아요"가 먼저입니다.' data-en='Saying "Please have this done by next week" creates pressure. Instead, suggest lightly: "Try it once this week, and we can talk about how it went next time." If they haven\'t done it, "That\'s okay" comes first.'>"다음 주까지 해 오세요"라는 방식은 부담이 됩니다. "이번 주에 한번 시도해보고, 어떠셨는지 다음에 이야기 나눠요"처럼 가볍게 제안해 주세요. 못 해왔어도 "괜찮아요"가 먼저입니다.</div></div></div>
+
+    <div class="mistake-item"><span class="mistake-badge" data-ko="실수 05" data-en="Mistake 05">실수 05</span><div><div class="mistake-title" data-ko="구역장 혼자 결과를 해석하고 전달하기" data-en="The cell leader interpreting and delivering results alone">구역장 혼자 결과를 해석하고 전달하기</div><div class="mistake-body" data-ko="상담 가이드는 구역장이 준비하는 용도입니다. 실제 대화에서는 구역원의 이야기를 먼저 들어야 합니다. 해석을 먼저 전달하면 구역원이 자기 이야기를 할 공간이 사라집니다." data-en="The counseling guide is for the cell leader to prepare. In the actual conversation, you must listen to the cell member's story first. If you deliver your interpretation first, the space for the member to share their own story disappears.">상담 가이드는 구역장이 준비하는 용도입니다. 실제 대화에서는 구역원의 이야기를 먼저 들어야 합니다. 해석을 먼저 전달하면 구역원이 자기 이야기를 할 공간이 사라집니다.</div></div></div>
+
+    <div class="mistake-item"><span class="mistake-badge" style="background:#2C3E6B;" data-ko="주의 01" data-en="Caution 01">주의 01</span><div><div class="mistake-title" data-ko="광야형·인내형 구역원에게 더 많은 신앙 활동을 권하기" data-en="Encouraging Wilderness Type or Endurance Type members to do more faith activities">광야형·인내형 구역원에게 더 많은 신앙 활동을 권하기</div><div class="mistake-body" data-ko='이 두 유형은 이미 지쳐 있거나 환경이 어렵습니다. 더 해야 한다는 메시지는 부담만 됩니다. "지금 이대로도 충분해요"가 먼저입니다. 심각한 정서적 어려움이 보인다면 전문 상담사와의 연결을 고려하세요.' data-en='These two types are already exhausted or in difficult circumstances. The message that they need to do more only adds burden. "You are enough just as you are right now" comes first. If you see signs of serious emotional difficulty, consider connecting them with a professional counselor.'>이 두 유형은 이미 지쳐 있거나 환경이 어렵습니다. 더 해야 한다는 메시지는 부담만 됩니다. "지금 이대로도 충분해요"가 먼저입니다. 심각한 정서적 어려움이 보인다면 전문 상담사와의 연결을 고려하세요.</div></div></div>
+
+    <div class="mistake-item"><span class="mistake-badge" style="background:#2C3E6B;" data-ko="주의 02" data-en="Caution 02">주의 02</span><div><div class="mistake-title" data-ko="구역장이 모든 것을 혼자 감당하려 하기" data-en="The cell leader trying to handle everything alone">구역장이 모든 것을 혼자 감당하려 하기</div><div class="mistake-body" data-ko='이 시스템은 구역장이 전문 상담사가 되기 위한 도구가 아닙니다. 구역장이 할 수 있는 것은 "함께 있어주기"와 "들어주기"입니다. 감당이 어렵다고 느껴지면 담당 사역자에게 도움을 요청하는 것이 맞습니다.' data-en='This system is not a tool for the cell leader to become a professional counselor. What a cell leader can do is "be present" and "listen." If you feel overwhelmed, it is right to ask the designated ministry leader for help.'>이 시스템은 구역장이 전문 상담사가 되기 위한 도구가 아닙니다. 구역장이 할 수 있는 것은 "함께 있어주기"와 "들어주기"입니다. 감당이 어렵다고 느껴지면 담당 사역자에게 도움을 요청하는 것이 맞습니다.</div></div></div>
+
+  </div>
+  <div class="pg-footer">
+    <span data-ko="FaithType · 신앙 유형 상담 시스템 · 구역장 사용 가이드" data-en="FaithType · Faith Type Counseling System · Cell Leader User Guide">FaithType · 신앙 유형 상담 시스템 · 구역장 사용 가이드</span>
+    <span>8</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PAGE 9 — 섹션 06 / SECTION 06           -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="pg-header">
+    <h2 data-ko="06 &nbsp; 자주 묻는 질문 (FAQ)" data-en="06 &nbsp; Frequently Asked Questions (FAQ)">06 &nbsp; 자주 묻는 질문 (FAQ)</h2>
+    <span class="sub">Frequently Asked Questions</span>
+  </div>
+  <div class="content">
+
+    <div class="faq-item"><div class="faq-q" data-ko="결과가 나답지 않게 나왔어요. 어떻게 하면 되나요?" data-en="The result doesn't feel like me. What should I do?">결과가 나답지 않게 나왔어요. 어떻게 하면 되나요?</div><div class="faq-a" data-ko="검사 당일의 컨디션이나 마음 상태에 따라 결과가 달라질 수 있습니다. 일정 시간이 지난 후 다시 검사해 볼 것을 권장합니다. 결과보다 &quot;지금 가장 공감되는 부분이 어디예요?&quot;라는 대화가 더 중요합니다." data-en='Results can vary depending on your condition or state of mind on the day of the assessment. It is recommended to retake it after some time has passed. The conversation "Which part resonates with you most right now?" is more important than the result itself.'>검사 당일의 컨디션이나 마음 상태에 따라 결과가 달라질 수 있습니다. 일정 시간이 지난 후 다시 검사해 볼 것을 권장합니다. 결과보다 "지금 가장 공감되는 부분이 어디예요?"라는 대화가 더 중요합니다.</div></div>
+
+    <div class="faq-item"><div class="faq-q" data-ko="두 가지 유형이 비슷하게 나왔어요." data-en="Two types came out very similarly for me.">두 가지 유형이 비슷하게 나왔어요.</div><div class="faq-a" data-ko="두 유형 모두 지금의 모습을 반영할 수 있습니다. 두 유형의 설명을 모두 읽어보고, 더 공감되는 부분을 중심으로 대화를 나눠보세요. 정확한 하나의 유형을 찾는 것이 목표가 아닙니다." data-en="Both types may reflect who you are right now. Read the descriptions for both types and focus your conversation on the parts that resonate more. The goal is not to find one single precise type.">두 유형 모두 지금의 모습을 반영할 수 있습니다. 두 유형의 설명을 모두 읽어보고, 더 공감되는 부분을 중심으로 대화를 나눠보세요. 정확한 하나의 유형을 찾는 것이 목표가 아닙니다.</div></div>
+
+    <div class="faq-item"><div class="faq-q" data-ko="구역원이 결과 공유를 꺼려합니다." data-en="My cell member is reluctant to share their results.">구역원이 결과 공유를 꺼려합니다.</div><div class="faq-a" data-ko="강요하지 마세요. &quot;공유하기 불편하면 안 해도 됩니다&quot;라고 먼저 말해주세요. 결과 없이도 대화는 충분히 가능합니다. 신뢰가 쌓이면 자연스럽게 공유하게 됩니다." data-en='Don&apos;t push. Say first: "You don&apos;t have to share if you&apos;re not comfortable." Meaningful conversation is still possible without the results. Once trust is built, sharing will happen naturally.'>강요하지 마세요. "공유하기 불편하면 안 해도 됩니다"라고 먼저 말해주세요. 결과 없이도 대화는 충분히 가능합니다. 신뢰가 쌓이면 자연스럽게 공유하게 됩니다.</div></div>
+
+    <div class="faq-item"><div class="faq-q" data-ko="유형이 시간이 지나면 바뀔 수 있나요?" data-en="Can the type change over time?">유형이 시간이 지나면 바뀔 수 있나요?</div><div class="faq-a" data-ko="네, 바뀔 수 있습니다. 환경이나 신앙 여정이 변하면 유형도 달라질 수 있습니다. 1년 후 재검사를 통해 변화를 함께 확인하는 것을 권장합니다." data-en="Yes, it can. If their environment or faith journey changes, the type may shift as well. It is recommended to retake the assessment after a year to confirm any changes together.">네, 바뀔 수 있습니다. 환경이나 신앙 여정이 변하면 유형도 달라질 수 있습니다. 1년 후 재검사를 통해 변화를 함께 확인하는 것을 권장합니다.</div></div>
+
+    <div class="faq-item"><div class="faq-q" data-ko="검사 결과를 다른 사람에게 이야기해도 되나요?" data-en="Is it okay to tell other people about the assessment results?">검사 결과를 다른 사람에게 이야기해도 되나요?</div><div class="faq-a" data-ko="구역원의 동의 없이 결과를 다른 사람과 공유하지 마세요. 검사 결과는 개인 정보이며, 대화는 신뢰를 바탕으로 이루어져야 합니다." data-en="Do not share the results with others without the cell member's consent. Assessment results are personal information, and conversation must be built on trust.">구역원의 동의 없이 결과를 다른 사람과 공유하지 마세요. 검사 결과는 개인 정보이며, 대화는 신뢰를 바탕으로 이루어져야 합니다.</div></div>
+
+    <div class="faq-item"><div class="faq-q" data-ko="광야형이나 인내형 구역원이 걱정됩니다." data-en="I'm worried about my Wilderness Type or Endurance Type cell member.">광야형이나 인내형 구역원이 걱정됩니다.</div><div class="faq-a" data-ko="섣불리 해결하려 하지 말고, 먼저 충분히 들어주세요. 심각한 정서적 어려움이 보인다면 전문 상담사 연결을 고려하세요. 구역장이 모든 것을 감당할 필요는 없습니다." data-en="Don't rush to fix things — listen fully first. If you observe signs of serious emotional difficulty, consider connecting them with a professional counselor. The cell leader does not need to handle everything alone.">섣불리 해결하려 하지 말고, 먼저 충분히 들어주세요. 심각한 정서적 어려움이 보인다면 전문 상담사 연결을 고려하세요. 구역장이 모든 것을 감당할 필요는 없습니다.</div></div>
+
+    <div class="faq-item"><div class="faq-q" data-ko="활동지를 안 해왔어요." data-en="The cell member hasn't done the worksheet.">활동지를 안 해왔어요.</div><div class="faq-a" data-ko='"괜찮아요, 다음에 해도 돼요"라고 말해주세요. 왜 어려웠는지 이야기 나누는 것 자체가 더 좋은 대화가 될 수 있습니다.' data-en='"That\'s okay — you can do it next time." Talking about why it was difficult can itself become a better conversation.'>"괜찮아요, 다음에 해도 돼요"라고 말해주세요. 왜 어려웠는지 이야기 나누는 것 자체가 더 좋은 대화가 될 수 있습니다.</div></div>
+
+  </div>
+  <div class="pg-footer">
+    <span data-ko="FaithType · 신앙 유형 상담 시스템 · 구역장 사용 가이드" data-en="FaithType · Faith Type Counseling System · Cell Leader User Guide">FaithType · 신앙 유형 상담 시스템 · 구역장 사용 가이드</span>
+    <span>9</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PAGE 10 — 섹션 07 / SECTION 07          -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="pg-header">
+    <h2 data-ko="07 &nbsp; 문의 및 지원" data-en="07 &nbsp; Support &amp; Contact">07 &nbsp; 문의 및 지원</h2>
+    <span class="sub">Support &amp; Contact</span>
+  </div>
+  <div class="content">
+
+    <p class="section-title" style="margin-bottom:8px;" data-ko="빠른 참조 카드" data-en="Quick Reference Card">빠른 참조 카드</p>
+    <div style="border:1px solid var(--border);border-radius:6px;overflow:hidden;">
+      <div class="qref-row" style="padding:8px 14px;">
+        <div class="qref-dot" style="background:var(--purple);"></div>
+        <div class="qref-name" data-ko="신앙 유형 검사" data-en="Faith Type Assessment">신앙 유형 검사</div>
+        <div class="qref-desc" data-ko="구역원이 사용 · 포털 → 항해자 탭 · 약 15분" data-en="Completed by cell member · Portal → Navigator tab · approx. 15 min">구역원이 사용 · 포털 → 항해자 탭 · 약 15분</div>
+      </div>
+      <div class="qref-row" style="padding:8px 14px;">
+        <div class="qref-dot" style="background:#2C3E6B;"></div>
+        <div class="qref-name" data-ko="상담 가이드" data-en="Counseling Guide">상담 가이드</div>
+        <div class="qref-desc" data-ko="구역장 전용 · 8가지 유형별 8섹션 · 만남 전 정독" data-en="Cell leader only · 8 sections for each of 8 types · read before meeting">구역장 전용 · 8가지 유형별 8섹션 · 만남 전 정독</div>
+      </div>
+      <div class="qref-row" style="padding:8px 14px;">
+        <div class="qref-dot" style="background:var(--sage);"></div>
+        <div class="qref-name" data-ko="성장 플랜지" data-en="Growth Plan Sheet">성장 플랜지</div>
+        <div class="qref-desc" data-ko="함께 작성 · 1년 로드맵 · 3개월마다 점검" data-en="Written together · 1-year roadmap · reviewed every 3 months">함께 작성 · 1년 로드맵 · 3개월마다 점검</div>
+      </div>
+      <div class="qref-row" style="padding:8px 14px;">
+        <div class="qref-dot" style="background:var(--red);"></div>
+        <div class="qref-name" data-ko="유형별 활동지" data-en="Type-Specific Worksheets">유형별 활동지</div>
+        <div class="qref-desc" data-ko="구역원 선택 · 2종 중 1종 · 과제 아닌 대화 재료" data-en="Member chooses · 1 of 2 options · not homework, but conversation material">구역원 선택 · 2종 중 1종 · 과제 아닌 대화 재료</div>
+      </div>
+    </div>
+
+    <div class="highlight" style="margin-top:14px;">
+      <p>
+        <span data-ko="&quot;구역장님이 구역원의 신앙 여정에<br>함께 걸어주시는 것 자체가 가장 큰 사역입니다.&quot;"
+              data-en="&quot;The very act of walking alongside your cell members<br>on their faith journey is the greatest ministry of all.&quot;">
+          "구역장님이 구역원의 신앙 여정에<br>함께 걸어주시는 것 자체가 가장 큰 사역입니다."
+        </span>
+      </p>
+      <small data-ko="이 가이드가 그 동행에 작은 도움이 되기를 바랍니다." data-en="We hope this guide serves as a small help along that journey.">이 가이드가 그 동행에 작은 도움이 되기를 바랍니다.</small>
+    </div>
+
+    <div style="text-align:center;margin-top:14px;font-size:9.5px;color:var(--muted);">
+      <span data-ko="FaithType · 신앙 유형 상담 시스템 · 구역장 사용 가이드 v1.0" data-en="FaithType · Faith Type Counseling System · Cell Leader User Guide v1.0">FaithType · 신앙 유형 상담 시스템 · 구역장 사용 가이드 v1.0</span>
+    </div>
+
+  </div>
+  <div class="pg-footer">
+    <span data-ko="FaithType · 신앙 유형 상담 시스템 · 구역장 사용 가이드" data-en="FaithType · Faith Type Counseling System · Cell Leader User Guide">FaithType · 신앙 유형 상담 시스템 · 구역장 사용 가이드</span>
+    <span>10</span>
+  </div>
+</div>
+
+</div><!-- .page-wrap -->
+
+<script>
+/* ── LANGUAGE SWITCHER ── */
+let currentLang = 'ko';
+
+function toggleDropdown() {
+  const btn = document.getElementById('langBtn');
+  const dropdown = document.getElementById('langDropdown');
+  btn.classList.toggle('open');
+  dropdown.classList.toggle('show');
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(e) {
+  const wrap = document.querySelector('.lang-wrap');
+  if (wrap && !wrap.contains(e.target)) {
+    document.getElementById('langBtn').classList.remove('open');
+    document.getElementById('langDropdown').classList.remove('show');
+  }
+});
+
+function setLang(lang) {
+  if (lang === currentLang) {
+    document.getElementById('langBtn').classList.remove('open');
+    document.getElementById('langDropdown').classList.remove('show');
+    return;
+  }
+  currentLang = lang;
+
+  // Update body class for font switching
+  document.body.classList.toggle('lang-en', lang === 'en');
+
+  // Update all translatable elements
+  document.querySelectorAll('[data-ko][data-en]').forEach(el => {
+    const val = el.getAttribute('data-' + lang);
+    if (val !== null) {
+      // Use innerHTML to support <br> tags in translations
+      el.innerHTML = val;
+    }
+  });
+
+  // Update page title
+  document.title = lang === 'ko'
+    ? 'FaithType 구역장 사용 가이드'
+    : 'FaithType Cell Leader User Guide';
+
+  // Update dropdown label and active state
+  document.getElementById('langLabel').innerHTML = lang === 'ko'
+    ? '🇰🇷 한국어'
+    : '🇺🇸 English';
+  document.getElementById('opt-ko').classList.toggle('active', lang === 'ko');
+  document.getElementById('opt-en').classList.toggle('active', lang === 'en');
+
+  // Update serif font for cover/highlight headings
+  const serifEls = document.querySelectorAll('.pg-header h2, .section-title, .highlight p');
+  serifEls.forEach(el => {
+    el.style.fontFamily = lang === 'en'
+      ? "'Playfair Display', serif"
+      : "'Noto Serif KR', serif";
+  });
+
+  // Close dropdown
+  document.getElementById('langBtn').classList.remove('open');
+  document.getElementById('langDropdown').classList.remove('show');
+}
+</script>
+</body>
+</html>
